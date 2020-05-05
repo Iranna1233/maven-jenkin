@@ -2,4 +2,4 @@
 this is first maven project
 example of Poll SCM
 
-trigger
+trigge
