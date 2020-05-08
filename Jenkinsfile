@@ -4,6 +4,9 @@ pipeline{
         stage('init'){
             steps{
                     echo 'Initilization of building artifacts'
+                    sh '''
+                    echo "$MAVEN_HOME"
+                    '''
             }
         }
         stage('Build'){
