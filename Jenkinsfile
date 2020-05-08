@@ -1,12 +1,12 @@
 pipeline{
     agent any
     stages{
-        stage('init') {
+        stage("initialization") {
             steps{
                 echo 'Testing'
             }
         }
-        stage('build'){
+        stage('building'){
             steps{
                 echo "Building phase"
             }
