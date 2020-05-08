@@ -1,23 +1,19 @@
 pipeline{
     agent any
     stages{
-        stage('Init'){
+        stage('init') {
             steps{
-                echo "Just Testing...."
+                echo 'Testing'
             }
         }
-
-        stage('Build'){
+        stage('build'){
             steps{
-                echo "Building...."
-                sh "mvn clean package"
-                sh "docker build . -t tomcatwebapp:${env.BUILD_ID}"
+                echo "Building phase"
             }
         }
-        
         stage('Deploy'){
             steps{
-                echo "code delyed...."
+                echo 'Deploye to production / Code deployed'
             }
         }
     }
