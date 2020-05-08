@@ -9,16 +9,16 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Bulding starts here"
-                sh 'mvn clean package'
+                sh 'mvn -v'
             }
-            post{
-                success{
-                    echo "Now archiving"
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
+        //     post{
+        //         success{
+        //             echo "Now archiving"
+        //             archiveArtifacts artifacts: '**/target/*.war'
+        //         }
                 
-            }
-        }
+        //     }
+        // }
         stage('Deploy'){
             steps{
                 echo "Check artifacts and its date"
