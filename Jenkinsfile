@@ -1,20 +1,29 @@
 pipeline{
-    agent none
+    agent any
     stages{
-        stage("initialization") {
+        stage('init'){
             steps{
-                echo 'Testing'
+                    echo 'Initilization of building artifacts'
             }
         }
-        stage('building'){
+        stage('Build'){
             steps{
-                echo "Building phase"
+                echo "Bulding starts here"
+                sh 'mvn clean package'
+            }
+            post{
+                success{
+                    echo "Now archiving"
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+                
             }
         }
         stage('Deploy'){
             steps{
-                echo 'Deploye to production / Code deployed'
+                echo "Check artifacts and its date"
             }
         }
+        
     }
 }
