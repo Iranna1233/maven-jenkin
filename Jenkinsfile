@@ -1,12 +1,14 @@
 pipeline{
     agent any
+
+    tools{
+        maven "M2"
+
+    }
     stages{
         stage('init'){
             steps{
                     echo 'Initilization of building artifacts'
-                    sh '''
-                    echo "$MAVEN_HOME"
-                    '''
             }
         }
         stage('Build'){
