@@ -14,15 +14,15 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Bulding starts here"
-                sh 'mvn -v'
+                sh 'mvn clean package'
             }
-        //     post{
-        //         success{
-        //             echo "Now archiving"
-        //             archiveArtifacts artifacts: '**/target/*.war'
-        //         }
+            post{
+                success{
+                    echo "Now archiving"
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
                 
-        //     }
+            }
         }
         stage('Deploy'){
             steps{
