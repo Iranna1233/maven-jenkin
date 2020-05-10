@@ -24,11 +24,11 @@ pipeline{
                 
             }
         }
-        stage('Deploy'){
+        stage('Deploy to stage'){
             steps{
-                echo "Check artifacts and its date"
+                echo "deploy to stage"
+                build job: 'deploy-to-stage'
             }
         }
-        
     }
 }
