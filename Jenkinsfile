@@ -29,9 +29,11 @@ pipeline{
                 echo "deploy to stage"
                 build job: 'deploy-to-stage'
             }
-            steps{
-                 echo "Copy artifacts from another project"
-                 copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'beg_pipeline', selector: lastSuccessful()
+            post{
+                success{
+                    echo "Copy artifacts from another project"
+                    copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'beg_pipeline', selector: lastSuccessful()
+                }
             }
         }
         // stage('Post build'){
