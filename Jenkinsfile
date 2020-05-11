@@ -29,18 +29,25 @@ pipeline{
                 echo "deploy to stage"
                 build job: 'stage-pipeline'
             }
-            post{
-                success{
-                echo "Copy artifacts from another project"
-                copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'beg_pipeline', selector: lastSuccessful()
-                }
+        }
+        stage('Deploy to Production'){
+        steps{
+            echo "deply to production"
+            timeout(time:5, unit:"DAYS"){
+                input message:'Approve PRODUCTION Deployment ?'
+            }
+            build job: 'deploy-to-prod'
+        }
+
+        post {
+            success {
+                echo "code deployed to producion"
+            }
+
+            failure{
+                echo "Deployment Failed"
             }
         }
-        // stage('Post build'){
-        //     steps{
-        //         echo "Deploy to container"
-        //         deploy adapters: [tomcat8(credentialsId: 'a7ad4ea9-4734-4587-bff2-417e61da577a', path: '', url: 'http://3.23.111.102:8090/')], contextPath: 'weba', onFailure: false, war: '**/*.war'
-        //     }
-        // }
+
     }
 }
