@@ -39,7 +39,7 @@ pipeline{
         stage('Post build'){
             steps{
                 echo "Deploy to container"
-                deploy adapters: [tomcat8(credentialsId: 'a7ad4ea9-4734-4587-bff2-417e61da577a', path: '', url: 'http://3.23.111.102:8090/')], contextPath: 'webap', onFailure: false, war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: 'a7ad4ea9-4734-4587-bff2-417e61da577a', path: '', url: 'http://3.23.111.102:8090/')], contextPath: 'weba', onFailure: false, war: '**/*.war'
             }
         }
     }
