@@ -1,5 +1,11 @@
 pipeline{
     agent any
+
+    tools{
+        maven "M2"
+
+    }
+
     stages{
         stage('Init'){
             steps{
