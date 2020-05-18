@@ -18,7 +18,7 @@ stages{
             post {
                 success {
                     echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
+                    archiveArtifacts artifacts: '**/target/ib.war'
                 }
             }
         }
@@ -27,13 +27,13 @@ stages{
             parallel{
                 stage ('Deploy to test'){
                     steps {
-                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_test}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
+                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/ib.war ec2-user@${params.tomcat_test}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
                     }
                 }
 
                 stage ("Deploy to Production"){
                     steps {
-                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_prod}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
+                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/ib.war ec2-user@${params.tomcat_prod}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
                     }
                 }
             }
