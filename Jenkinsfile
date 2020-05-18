@@ -1,53 +1,42 @@
-pipeline{
+pipeline {
     agent any
 
+    parameters {
+         string(name: 'tomcat_test', defaultValue: '52.14.63.12', description: 'Staging Server')
+         string(name: 'tomcat_prod', defaultValue: '18.218.125.65', description: 'Production Server')
+    }
     tools{
         maven "M2"
 
     }
-    stages{
-        stage('init'){
-            steps{
-                    echo 'Initilization of building artifacts'
-            }
-        }
-        stage('Build'){
-            steps{
-                echo "Bulding starts here"
-                sh 'mvn -T 10 clean package'
-            }
-            post{
-                success{
-                    echo "Now archiving"
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-                
-            }
-        }
-        stage('Deploy to stage'){
-            steps{
-                echo "deploy to stage"
-                build job: 'stage-pipeline'
-            }
-        }
-        stage('Deploy to Production'){
-            steps{
-                echo "deply to production"
-                timeout(time:5, unit:"DAYS"){
-                    input message:'Approve PRODUCTION Deployment ?'
-                }
-                build job: 'deploy-to-prod'
-            }
 
+stages{
+        stage('Build'){
+            steps {
+                sh 'mvn clean package'
+            }
             post {
                 success {
-                    echo "code deployed to producion"
-                }
-
-            failure{
-                    echo "Deployment Failed"
+                    echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
         }
-}
+
+        stage ('Deployments'){
+            parallel{
+                stage ('Deploy to test'){
+                    steps {
+                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_test}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
+                    }
+                }
+
+                stage ("Deploy to Production"){
+                    steps {
+                        sh "scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_prod}:/home/ec2-user/apache-tomcat-8.5.54/webapps/"
+                    }
+                }
+            }
+        }
+    }
 }
