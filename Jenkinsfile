@@ -28,8 +28,6 @@ stages{
 		        sh '''
                     scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_test}:/home/ec2-user/apache-tomcat-8.5.54/webapps/
                 '''
-                   // scp -i /home/ec2-user/.ssh/id_rsa **/target/*.war ec2-user@${params.tomcat_prod}:/home/ec2-user/apache-tomcat-8.5.54/webapps/
-		        
 		        }
 	        }
         }
